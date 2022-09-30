@@ -1,0 +1,85 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.tosmo.ktils",
+    "module": "ktils",
+    "version": "0.1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.7.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ktils-0.1.0.jar",
+          "url": "ktils-0.1.0.jar",
+          "size": 9956,
+          "sha512": "1e72a6d8e3603ed9a7dce053024c15a9febadeb4bb8ab12e1648ebacd4b0fc525132e78f28cb06df5eddfe3f1399f3bad612d7e6d841f9e59ca249b42fabe831",
+          "sha256": "f4b01e735b30c1dff77ad46ad6fa561a16af9bee544ad5564fd3bfed2d80953c",
+          "sha1": "0cf6fff9d314afab7e6bb2478dbe257a3a165010",
+          "md5": "8dc3fefe4aa9503d4c3299bdccbde6d7"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.7.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.7.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ktils-0.1.0.jar",
+          "url": "ktils-0.1.0.jar",
+          "size": 9956,
+          "sha512": "1e72a6d8e3603ed9a7dce053024c15a9febadeb4bb8ab12e1648ebacd4b0fc525132e78f28cb06df5eddfe3f1399f3bad612d7e6d841f9e59ca249b42fabe831",
+          "sha256": "f4b01e735b30c1dff77ad46ad6fa561a16af9bee544ad5564fd3bfed2d80953c",
+          "sha1": "0cf6fff9d314afab7e6bb2478dbe257a3a165010",
+          "md5": "8dc3fefe4aa9503d4c3299bdccbde6d7"
+        }
+      ]
+    }
+  ]
+}
