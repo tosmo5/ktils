@@ -35,7 +35,7 @@ class Reflecter<T : Any>(val kClass: KClass<T>) {
     }
 
     /**
-     * 本类中定义的所有属性集合，按照声明顺序排序
+     * [kClass]中定义的所有属性集合，按照声明顺序排序
      */
     val unsortedDeclaredMemberProperties: Collection<KProperty1<T, *>> = buildList {
         kClass.java.declaredFields.map { field: Field ->
@@ -44,7 +44,7 @@ class Reflecter<T : Any>(val kClass: KClass<T>) {
     }
 
     /**
-     * 本类中定义的所有可变属性集合，按照声明顺序排序
+     * [kClass]中定义的所有可变属性集合，按照声明顺序排序
      */
     val unsortedVarDeclaredMemberProperties: Collection<KMutableProperty1<T, *>> =
         unsortedDeclaredMemberProperties.filterIsInstance<KMutableProperty1<T, *>>()
