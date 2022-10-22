@@ -1,19 +1,15 @@
 package com.tosmo.ktils
 
-import kotlin.reflect.KClass
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.KProperty
-import kotlin.reflect.full.createInstance
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.isSubtypeOf
-import kotlin.reflect.full.memberProperties
+import java.lang.reflect.Field
+import kotlin.reflect.*
+import kotlin.reflect.full.*
 
 /**
  * 反射
  *
  * @author Thomas Miao
  */
-class Refecter<T : Any>(val kClass: KClass<T>) {
+class Reflecter<T : Any>(val kClass: KClass<T>) {
 
     companion object {
         /**
@@ -41,7 +37,17 @@ class Refecter<T : Any>(val kClass: KClass<T>) {
     /**
      * 本类中定义的所有属性集合，按照声明顺序排序
      */
-    val declaredPropertyNames: Collection<String> = kClass.java.declaredFields.map { it.name }
+    val unsortedDeclaredMemberProperties: Collection<KProperty1<T, *>> = buildList {
+        kClass.java.declaredFields.map { field: Field ->
+            kClass.declaredMemberProperties.find { field.name == it.name }?.let { add(it) }
+        }
+    }
+
+    /**
+     * 本类中定义的所有可变属性集合，按照声明顺序排序
+     */
+    val unsortedVarDeclaredMemberProperties: Collection<KMutableProperty1<T, *>> =
+        unsortedDeclaredMemberProperties.filterIsInstance<KMutableProperty1<T, *>>()
 
     /**
      * 调用[T]的空构造函数创建一个对象，不存在空构建函数时返回空
@@ -74,7 +80,11 @@ class Refecter<T : Any>(val kClass: KClass<T>) {
             requireNotNull(initFun) { "${kClass.qualifiedName} → 提供的参数不足以创建对象" }
             buildMap {
                 initFun.parameters.forEach {
-                    put(it, args[it.name])
+                    val value = args[it.name]
+                    require(!it.type.isMarkedNullable && value == null) {
+                        "${kClass.qualifiedName}的参数${it.name}不可为空，但取到了空值"
+                    }
+                    put(it, value)
                     usedArgNames.add(it.name!!)
                 }
             }.let { initFun.callBy(it) }
