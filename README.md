@@ -21,3 +21,11 @@ dependencies {
     implementation 'com.github.tosmo5:ktils:0.1.0'
 }
 ```
+
+## 模块
+| 类       | 功能简介                 |
+| -------- | ------------------------ |
+| Holder   | 可对自由地绑定接口的实现 |
+| IdWorker | 唯一Id生成器             |
+|          |                          |
+

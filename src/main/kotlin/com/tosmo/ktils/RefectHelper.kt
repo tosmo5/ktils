@@ -1,4 +1,4 @@
-package com.tosmo.ktils.refect
+package com.tosmo.ktils
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
