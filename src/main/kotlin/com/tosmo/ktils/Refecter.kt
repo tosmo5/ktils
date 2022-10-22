@@ -13,7 +13,7 @@ import kotlin.reflect.full.memberProperties
  *
  * @author Thomas Miao
  */
-class RefectHelper<T : Any>(val kClass: KClass<T>) {
+class Refecter<T : Any>(val kClass: KClass<T>) {
 
     companion object {
         /**
