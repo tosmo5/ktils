@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.tosmo.ktils.IdWorkerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-30T01:54:15" hostname="Z2AIR" time="0.022">
+<testsuite name="com.tosmo.ktils.IdWorkerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-30T03:01:58" hostname="Z2AIR" time="0.03">
   <properties/>
-  <testcase name="nextId()" classname="com.tosmo.ktils.IdWorkerTest" time="0.022"/>
+  <testcase name="nextId()" classname="com.tosmo.ktils.IdWorkerTest" time="0.03"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
