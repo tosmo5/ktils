@@ -1,11 +1,11 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.20'
     id 'application'
     id 'maven-publish'
 }
 
-group = 'com.tosmo.ktils'
-version = '0.1.1'
+group = 'com.tosmo'
+version = '0.1.2'
 
 repositories {
     mavenCentral()
