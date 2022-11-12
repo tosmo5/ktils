@@ -192,7 +192,7 @@ object DateUtils {
      * @param formatString
      * @return
      */
-    internal fun isADateFormat(formatIndex: Int, formatString: String): Boolean {
+    fun isADateFormat(formatIndex: Int, formatString: String): Boolean {
         var isDateCache = DATE_THREAD_LOCAL.get()
         if (isDateCache == null) {
             isDateCache = mutableMapOf()
@@ -210,7 +210,7 @@ object DateUtils {
      * @param formatString
      * @return
      */
-    internal fun isADateFormatUncached(formatIndex: Int, formatString: String): Boolean {
+    fun isADateFormatUncached(formatIndex: Int, formatString: String): Boolean {
         // First up, is this an internal date format?
         if (isInternalDateFormat(formatIndex)) {
             return true
@@ -289,7 +289,7 @@ object DateUtils {
      *
      * @see .isADateFormat
      */
-    internal fun isInternalDateFormat(format: Int): Boolean {
+    fun isInternalDateFormat(format: Int): Boolean {
         return when (format) {
             0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x2d, 0x2e, 0x2f, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a -> true
             else -> false
