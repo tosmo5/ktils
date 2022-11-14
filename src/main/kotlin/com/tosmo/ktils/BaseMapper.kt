@@ -3,9 +3,13 @@ package com.tosmo.ktils
 /**
  * 实体类基础接口
  *
+ * T 实体类类型
+ *
+ * I 实体id类型
+ *
  * @author Thomas Miao
  */
-interface BaseMapper<T> {
+interface BaseMapper<T, I> {
     /**
      * 插入[obj]的数据，返回是否成功
      */
@@ -40,4 +44,9 @@ interface BaseMapper<T> {
     fun update(obj: T): Boolean {
         throw UnsupportedOperationException("未实现的功能")
     }
+
+    /**
+     * 通过[id]查找[T]，失败返回空
+     */
+    fun findById(id: I): T?
 }
