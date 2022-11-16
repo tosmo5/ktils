@@ -49,4 +49,9 @@ interface BaseMapper<T, I> {
      * 通过[id]查找[T]，失败返回空
      */
     fun findById(id: I): T?
+
+    /**
+     * 查找[id]是否存在
+     */
+    fun idExists(id: I): Boolean
 }
