@@ -48,10 +48,14 @@ interface BaseMapper<T, I> {
     /**
      * 通过[id]查找[T]，失败返回空
      */
-    fun findById(id: I): T?
+    fun findById(id: I): T? {
+        throw UnsupportedOperationException("未实现的功能")
+    }
 
     /**
      * 查找[id]是否存在
      */
-    fun idExists(id: I): Boolean
+    fun idExists(id: I): Boolean {
+        throw UnsupportedOperationException("未实现的功能")
+    }
 }
