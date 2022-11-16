@@ -56,6 +56,6 @@ interface BaseMapper<T, I> {
      * 查找[id]是否存在
      */
     fun idExists(id: I): Boolean {
-        throw UnsupportedOperationException("未实现的功能")
+        return findById(id) != null
     }
 }
