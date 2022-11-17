@@ -152,27 +152,27 @@ object Reflecter {
     /**
      * 将对象[obj]中所有的公开属性映射为[Map]并返回
      */
-    fun <T : Any> mapProps(obj: T): Map<String, *> {
-        return buildMap {
-            obj::class.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
-                put(it.name, it.getter.call(obj))
-            }
+    fun <T : Any> mapProps(obj: T): MutableMap<String, *> {
+        val map = mutableMapOf<String, Any?>()
+        obj::class.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
+            map[it.name] = it.getter.call(obj)
         }
+        return map
     }
 
     /**
      * 将数据类对象[obj]主构造方法中的公开属性映射为[Map]并返回
      */
-    fun <T : Any> mapParams(obj: T): Map<String, *> {
+    fun <T : Any> mapParams(obj: T): MutableMap<String, *> {
         val kClass = obj::class
         require(kClass.isData) { "${kClass}不是data class" }
-        return buildMap {
-            kClass.primaryConstructor?.parameters?.forEach {
-                put(it.name!!, null)
-            }
-            kClass.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
-                put(it.name, it.getter.call(obj))
-            }
+        val map = mutableMapOf<String, Any?>()
+        kClass.primaryConstructor?.parameters?.forEach {
+            map[it.name!!] = null
         }
+        kClass.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
+            map[it.name] = it.getter.call(obj)
+        }
+        return map
     }
 }
