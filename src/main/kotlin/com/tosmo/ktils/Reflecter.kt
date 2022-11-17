@@ -94,7 +94,7 @@ object Reflecter {
     /**
      * 用[args]中的参数，自动匹配一个合适的构造函数并创建一个[kClass]对象
      */
-    fun <T : Any> createBean(kClass: KClass<T>, args: Map<String, *>): T {
+    fun <T : Any> createBean(kClass: KClass<T>, args: Map<*, *>): T {
         // 判断空构造函数
         if (args.isEmpty()) {
             tryCreateBeanByNoArgs(kClass).onSuccess { return it }.onFailure { throw it }
@@ -141,7 +141,7 @@ object Reflecter {
     /**
      * 用[args]中的参数，自动匹配一个合适的构造函数并创建一个[kClass]对象，创建失败返回空
      */
-    fun <T : Any> createBeanOrNull(kClass: KClass<T>, args: Map<String, *>): T? {
+    fun <T : Any> createBeanOrNull(kClass: KClass<T>, args: Map<*, *>): T? {
         return try {
             createBean(kClass, args)
         } catch (e: Exception) {
