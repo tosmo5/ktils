@@ -152,7 +152,7 @@ object Reflecter {
     /**
      * 将对象[obj]中所有的公开属性映射为[Map]并返回
      */
-    fun <T : Any> mapProps(obj: T): MutableMap<String, *> {
+    fun mapProps(obj: Any): MutableMap<String, Any?> {
         val map = mutableMapOf<String, Any?>()
         obj::class.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
             map[it.name] = it.getter.call(obj)
@@ -163,7 +163,7 @@ object Reflecter {
     /**
      * 将数据类对象[obj]主构造方法中的公开属性映射为[Map]并返回
      */
-    fun <T : Any> mapParams(obj: T): MutableMap<String, *> {
+    fun mapParams(obj: Any): MutableMap<String, Any?> {
         val kClass = obj::class
         require(kClass.isData) { "${kClass}不是data class" }
         val map = mutableMapOf<String, Any?>()
