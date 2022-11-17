@@ -1,10 +1,7 @@
 package com.tosmo.ktils
 
-import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
-import kotlin.reflect.KProperty
-import kotlin.reflect.full.createType
-import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.*
+import kotlin.reflect.full.*
 
 /**
  * 反射
@@ -34,6 +31,16 @@ object Reflecter {
         return typeClasses.any { property.returnType.isSubtypeOf(it.createType()) }
     }
 
+    private fun <T : Any> tryCreateBeanByNoArgs(kClass: KClass<T>): Result<T> {
+        return runCatching {
+            val constructor = kClass.constructors.find {
+                it.parameters.isEmpty() || it.parameters.all { p -> p.isOptional }
+            }
+            requireNotNull(constructor) { "没有符合的构造函数" }
+            constructor.callBy(emptyMap())
+        }
+    }
+
     /**
      * 用[args]中的参数，自动匹配一个合适的构造函数并创建一个[kClass]对象
      */
@@ -46,11 +53,7 @@ object Reflecter {
     fun <T : Any> createBean(kClass: KClass<T>, args: Collection<*>): T {
         // 当没有给参数时，尝试调用无参构造
         if (args.isEmpty()) {
-            val constructor = kClass.constructors.find {
-                it.parameters.isEmpty() || it.parameters.all { p -> p.isOptional }
-            }
-            requireNotNull(constructor) { "没有符合的构造函数" }
-            return constructor.callBy(emptyMap())
+            tryCreateBeanByNoArgs(kClass).onSuccess { return it }.onFailure { throw it }
         }
         // 找出可传参数数量匹配的构造函数
         val constructors = kClass.constructors.filter {
@@ -94,11 +97,7 @@ object Reflecter {
     fun <T : Any> createBean(kClass: KClass<T>, args: Map<String, *>): T {
         // 判断空构造函数
         if (args.isEmpty()) {
-            val constructor = kClass.constructors.find {
-                it.parameters.isEmpty() || it.parameters.all { p -> p.isOptional }
-            }
-            requireNotNull(constructor) { "没有符合的构造函数" }
-            return constructor.callBy(emptyMap())
+            tryCreateBeanByNoArgs(kClass).onSuccess { return it }.onFailure { throw it }
         }
         // 转换参数映射
         val argsMap = buildMap {
@@ -147,6 +146,33 @@ object Reflecter {
             createBean(kClass, args)
         } catch (e: Exception) {
             null
+        }
+    }
+
+    /**
+     * 将对象[obj]中所有的公开属性映射为[Map]并返回
+     */
+    fun <T : Any> mapProps(obj: T): Map<String, *> {
+        return buildMap {
+            obj::class.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
+                put(it.name, it.getter.call(obj))
+            }
+        }
+    }
+
+    /**
+     * 将数据类对象[obj]主构造方法中的公开属性映射为[Map]并返回
+     */
+    fun <T : Any> mapParams(obj: T): Map<String, *> {
+        val kClass = obj::class
+        require(kClass.isData) { "${kClass}不是data class" }
+        return buildMap {
+            kClass.primaryConstructor?.parameters?.forEach {
+                put(it.name!!, null)
+            }
+            kClass.memberProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach {
+                put(it.name, it.getter.call(obj))
+            }
         }
     }
 }
