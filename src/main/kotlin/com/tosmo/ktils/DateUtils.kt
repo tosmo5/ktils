@@ -115,14 +115,14 @@ object DateUtils {
      * @throws ParseException
      */
     @Throws(ParseException::class)
-    fun parseDate(dateString: String): Date {
+    infix fun parseDate(dateString: String): Date {
         return parseDate(dateString, switchDateFormat(dateString))
     }
 
     /**
      * 转换日期格式
      */
-    fun switchDateFormat(dateString: String): String {
+    infix fun switchDateFormat(dateString: String): String {
         return when (dateString.length) {
             19 -> if (dateString.contains(MINUS)) {
                 DF_FULL
@@ -289,7 +289,7 @@ object DateUtils {
      *
      * @see .isADateFormat
      */
-    fun isInternalDateFormat(format: Int): Boolean {
+    infix fun isInternalDateFormat(format: Int): Boolean {
         return when (format) {
             0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x2d, 0x2e, 0x2f, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a -> true
             else -> false
