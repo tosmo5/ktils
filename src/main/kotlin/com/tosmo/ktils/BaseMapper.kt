@@ -25,21 +25,21 @@ interface BaseMapper<T, I> {
     }
 
     /**
-     * 删除[obj]的数据，通过主键匹配，返回是否成功
+     * 根据编号删除[obj]的数据，通过主键匹配，返回是否成功
      */
     infix fun delete(obj: T): Boolean {
         throw UnsupportedOperationException("未实现的功能")
     }
 
     /**
-     * 删除[objs]中所有[T]数据，返回删除的数量
+     * 根据编号删除[objs]中所有[T]数据，返回删除的数量
      */
     infix fun deleteAll(objs: Collection<T>): Int {
         throw UnsupportedOperationException("未实现的功能")
     }
 
     /**
-     * 更新[T]的数据，通过主键匹配，返回是否成功
+     * 根据编号更新[T]的数据，通过主键匹配，返回是否成功
      */
     infix fun update(obj: T): Boolean {
         throw UnsupportedOperationException("未实现的功能")
@@ -56,6 +56,51 @@ interface BaseMapper<T, I> {
      * 查找[id]是否存在
      */
     infix fun idExists(id: I): Boolean {
+        throw UnsupportedOperationException("未实现的功能")
+    }
+
+    /**
+     * 用[query]查询数据并返回[Int]或空
+     *
+     * @param query 原始sql语句
+     */
+    fun queryInt(query: String): Int? {
+        throw UnsupportedOperationException("未实现的功能")
+    }
+
+    /**
+     * 用[query]查询数据并返回[Long]或空
+     *
+     * @param query 原始sql语句
+     */
+    fun queryLong(query: String): Long? {
+        throw UnsupportedOperationException("未实现的功能")
+    }
+
+    /**
+     * 用[query]查询数据并返回[Float]或空
+     *
+     * @param query 原始sql语句
+     */
+    fun queryFloat(query: String): Float? {
+        throw UnsupportedOperationException("未实现的功能")
+    }
+
+    /**
+     * 用[query]查询数据并返回[Double]或空
+     *
+     * @param query 原始sql语句
+     */
+    fun queryDouble(query: String): Double? {
+        throw UnsupportedOperationException("未实现的功能")
+    }
+
+    /**
+     * 用[query]查询数据并返回[String]或空
+     *
+     * @param query 原始sql语句
+     */
+    fun queryString(query: String): String? {
         throw UnsupportedOperationException("未实现的功能")
     }
 }
