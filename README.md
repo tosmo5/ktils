@@ -26,7 +26,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.tosmo5:ktils:0.1.12'
+    implementation 'com.github.tosmo5:ktils:0.2.1'
 }
 ```
 
@@ -36,5 +36,5 @@ dependencies {
 | Holder     | 可对自由地绑定接口的实现 |
 | IdWorker   | 唯一Id生成器      |
 | Refecter   | 反射器          |
-| DateUtils  | 日期工具类        |
+| TimeUtils  | 时间工具类        |
 | BaseMapper | 实体类标准接口      |

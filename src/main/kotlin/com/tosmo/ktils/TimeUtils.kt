@@ -4,11 +4,12 @@ import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
 
-object DateUtils {
+object TimeUtils {
     /**
      * 日期缓存
      */
@@ -43,104 +44,131 @@ object DateUtils {
     /**
      * 2022-01-23
      */
-    const val DF_YEAR_MONTH_DAY = "yyyy-MM-dd"
+    const val DP_YEAR_MONTH_DAY = "yyyy-MM-dd"
 
     /**
      * 20220123182055
      */
-    const val DF_FULL_SHORT = "yyyyMMddHHmmss"
+    const val DP_FULL_SHORT = "yyyyMMddHHmmss"
 
     /**
      * 2022-01-23 18:20
      */
-    const val DF_YEAR_TO_MINUTE = "yyyy-MM-dd HH:mm"
+    const val DP_YEAR_TO_MINUTE = "yyyy-MM-dd HH:mm"
 
     /**
      * 2022/01/23 18:20
      */
-    const val DF_YEAR_TO_MINUTE_FORWORD_SLASH = "yyyy/MM/dd HH:mm"
+    const val DP_YEAR_TO_MINUTE_FORWORD_SLASH = "yyyy/MM/dd HH:mm"
 
     /**
      * 20220123 18:20:55
      */
-    const val DF_FULL_FORWORD_SHORT = "yyyyMMdd HH:mm:ss"
+    const val DP_FULL_FORWORD_SHORT = "yyyyMMdd HH:mm:ss"
 
     /**
      * 2022-01-23 18:20:55
      */
-    const val DF_FULL = "yyyy-MM-dd HH:mm:ss"
+    const val DP_FULL = "yyyy-MM-dd HH:mm:ss"
 
     /**
      * 2022/01/23 18:20:55
      */
-    const val DF_FULL_FORWORD_SLASH = "yyyy/MM/dd HH:mm:ss"
+    const val DP_FULL_FORWORD_SLASH = "yyyy/MM/dd HH:mm:ss"
+
+    /**
+     * 18:20:55
+     */
+    const val TP_NORMAL = "HH:mm:ss"
+
+    /**
+     * 182055
+     */
+    const val TP_NORMAL_SHORT = "HHmmss"
+
+    /**
+     * 18:20
+     */
+    const val TP_WITHOUT_SECONDS = "HH:mm"
+
+    /**
+     * 1820
+     */
+    const val TP_WITHOUT_SECONDES_SHORT = "HHmm"
 
     private const val MINUS = "-"
 
-    var defaultDateFormat = DF_FULL
+    var defaultDateFormat = DP_FULL
+
+    var defaultTimeFormat = TP_NORMAL
 
     /**
      * 字符串转为日期
      *
-     * @return [Date]
      * @throws ParseException
      */
     @Throws(ParseException::class)
-    fun parseDate(dateString: String, dateFormat: String): Date {
-        var df = dateFormat
-        if (df.isEmpty()) {
-            df = switchDateFormat(dateString)
-        }
-        return getCacheDateFormat(df).parse(dateString)
+    fun parseDate(dateStr: String, pattern: String = ""): Date {
+        val dp = pattern.ifEmpty { switchDateFormat(dateStr) }
+        return getCacheDateFormat(dp).parse(dateStr)
     }
 
     /**
      * 字符串转为日期
-     * @return [LocalDateTime]
+     *
+     * @throws ParseException
      */
-    fun parseLocalDateTime(dateString: String, dateFormat: String, local: Locale? = null): LocalDateTime {
-        var df = dateFormat
-        if (df.isEmpty()) {
-            df = switchDateFormat(dateString)
-        }
+    fun parseLocalDateTime(dateStr: String, pattern: String = "", local: Locale? = null): LocalDateTime {
+        val dp = pattern.ifEmpty { switchDateFormat(dateStr) }
         return local?.let {
-            LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(df, it))
-        } ?: LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(df))
+            LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(dp, it))
+        } ?: LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(dp))
+    }
+
+    fun parseLocalTime(timeStr: String, pattern: String = "", local: Locale? = null): LocalTime {
+        val tp = pattern.ifEmpty { switchTimeFormat(timeStr) }
+        return local?.let {
+            LocalTime.parse(timeStr, DateTimeFormatter.ofPattern(tp, it))
+        } ?: LocalTime.parse(timeStr, DateTimeFormatter.ofPattern(tp))
     }
 
     /**
-     * 字符串转为日期
-     *
-     * @return [Date]
-     * @throws ParseException
+     * 转换时间格式
      */
-    @Throws(ParseException::class)
-    infix fun parseDate(dateString: String): Date {
-        return parseDate(dateString, switchDateFormat(dateString))
+    infix fun switchTimeFormat(timeStr: String): String {
+        return when (timeStr.length) {
+            8 -> TP_NORMAL
+            6 -> TP_NORMAL_SHORT
+            5 -> TP_WITHOUT_SECONDS
+            4 -> TP_WITHOUT_SECONDES_SHORT
+            else -> throw IllegalArgumentException(
+                "找不到对应的时间格式，$timeStr"
+            )
+        }
     }
 
     /**
      * 转换日期格式
      */
-    infix fun switchDateFormat(dateString: String): String {
-        return when (dateString.length) {
-            19 -> if (dateString.contains(MINUS)) {
-                DF_FULL
+    infix fun switchDateFormat(dateStr: String): String {
+        return when (dateStr.length) {
+            19 -> if (dateStr.contains(MINUS)) {
+                DP_FULL
             } else {
-                DF_FULL_FORWORD_SLASH
+                DP_FULL_FORWORD_SLASH
             }
 
-            16 -> if (dateString.contains(MINUS)) {
-                DF_YEAR_TO_MINUTE
+            16 -> if (dateStr.contains(MINUS)) {
+                DP_YEAR_TO_MINUTE
             } else {
-                DF_YEAR_TO_MINUTE_FORWORD_SLASH
+                DP_YEAR_TO_MINUTE_FORWORD_SLASH
             }
 
-            17 -> DF_FULL_FORWORD_SHORT
-            14 -> DF_FULL_SHORT
-            10 -> DF_YEAR_MONTH_DAY
+            17 -> DP_FULL_FORWORD_SHORT
+            14 -> DP_FULL_SHORT
+            10 -> DP_YEAR_MONTH_DAY
             else -> throw IllegalArgumentException(
-                "can not find date format for：$dateString"
+                "找不到对应的日期格式，$dateStr"
             )
         }
     }
@@ -152,11 +180,8 @@ object DateUtils {
      * @param dateFormat 默认[defaultDateFormat]
      */
     fun format(date: Date, dateFormat: String = defaultDateFormat): String {
-        var df = dateFormat
-        if (df.isEmpty()) {
-            df = defaultDateFormat
-        }
-        return getCacheDateFormat(df).format(date)
+        val dp = dateFormat.ifEmpty { defaultDateFormat }
+        return getCacheDateFormat(dp).format(date)
     }
 
     /**
@@ -165,13 +190,16 @@ object DateUtils {
      * @param dateFormat 默认[defaultDateFormat]
      */
     fun format(date: LocalDateTime, dateFormat: String = defaultDateFormat, local: Locale? = null): String {
-        var df = dateFormat
-        if (df.isEmpty()) {
-            df = defaultDateFormat
-        }
+        val dp = dateFormat.ifEmpty { defaultDateFormat }
         return local?.let {
-            date.format(DateTimeFormatter.ofPattern(df, it))
-        } ?: date.format(DateTimeFormatter.ofPattern(df))
+            date.format(DateTimeFormatter.ofPattern(dp, it))
+        } ?: date.format(DateTimeFormatter.ofPattern(dp))
+    }
+
+    fun format(time: LocalTime, pattern: String = defaultTimeFormat, local: Locale? = null): String {
+        val tp = pattern.ifEmpty { defaultTimeFormat }
+        return local?.let { time.format(DateTimeFormatter.ofPattern(tp, it)) }
+            ?: time.format(DateTimeFormatter.ofPattern(tp))
     }
 
     private fun getCacheDateFormat(dateFormat: String): DateFormat {
@@ -186,39 +214,39 @@ object DateUtils {
     }
 
     /**
-     * 判断[formatString]是否为日期格式
+     * 判断[pattern]是否为日期格式
      *
-     * @param formatIndex
-     * @param formatString
+     * @param patternIx
+     * @param pattern
      * @return
      */
-    fun isADateFormat(formatIndex: Int, formatString: String): Boolean {
+    fun isADateFormat(patternIx: Int, pattern: String): Boolean {
         var isDateCache = DATE_THREAD_LOCAL.get()
         if (isDateCache == null) {
             isDateCache = mutableMapOf()
             DATE_THREAD_LOCAL.set(isDateCache)
         } else {
-            isDateCache.putIfAbsent(formatIndex, isADateFormatUncached(formatIndex, formatString))
+            isDateCache.putIfAbsent(patternIx, isADateFormatUncached(patternIx, pattern))
         }
-        return isDateCache[formatIndex]!!
+        return isDateCache[patternIx]!!
     }
 
     /**
-     * 判断[formatString]是否为日期格式
+     * 判断[pattern]是否为日期格式
      *
-     * @param formatIndex
-     * @param formatString
+     * @param patternIx
+     * @param pattern
      * @return
      */
-    fun isADateFormatUncached(formatIndex: Int, formatString: String): Boolean {
+    fun isADateFormatUncached(patternIx: Int, pattern: String): Boolean {
         // First up, is this an internal date format?
-        if (isInternalDateFormat(formatIndex)) {
+        if (isInternalDateFormat(patternIx)) {
             return true
         }
-        if (formatString.isEmpty()) {
+        if (pattern.isEmpty()) {
             return false
         }
-        var fs = formatString
+        var fs = pattern
         val length = fs.length
         val sb = StringBuilder(length)
         var i = 0
