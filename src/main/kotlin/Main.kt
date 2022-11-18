@@ -1,18 +1,11 @@
-import com.tosmo.ktils.ParamReplacer
+import com.tosmo.ktils.TimeUtils
 
 fun main() {
 
-    val args = mutableMapOf(
-        "id" to 123, "name" to "张三", "age" to 12
-    )
+    val dateStr = "2022-11-18"
 
-    val idParam = ParamReplacer.Param("id")
-    val nameParam = ParamReplacer.Param("name")
-    val ageParam = ParamReplacer.Param("age")
+    val date = TimeUtils.parseDate(dateStr, TimeUtils.DP_YEAR_MONTH_DAY)
 
-    val content = "编号为${idParam}的${nameParam}，年龄为${ageParam}"
-
-    println(content)
-    val last = ParamReplacer.replace(content, args)
-    println(last)
+    println(date)
+    println(TimeUtils.format(date, TimeUtils.DP_YEAR_MONTH_DAY))
 }

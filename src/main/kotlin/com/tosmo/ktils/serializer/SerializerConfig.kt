@@ -11,12 +11,17 @@ class SerializerConfig internal constructor() {
     /**
      * 日期格式
      */
-    var datePattern: String = TimeUtils.defaultDateFormat
+    var datePattern: String = TimeUtils.DP_YEAR_MONTH_DAY
+
+    /**
+     * 日期时间格式
+     */
+    var dateTimePattern: String = TimeUtils.DP_FULL
 
     /**
      * 时间格式
      */
-    var timePattern: String = TimeUtils.defaultTimeFormat
+    var timePattern: String = TimeUtils.TP_NORMAL
 
     companion object {
         val GLOBAL_CONFIG = SerializerConfig()
