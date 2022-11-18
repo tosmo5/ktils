@@ -26,15 +26,16 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.tosmo5:ktils:0.2.2'
+    implementation 'com.github.tosmo5:ktils:0.2.3'
 }
 ```
 
 ## 模块
-| 类          | 功能简介         |
-|------------|--------------|
-| Holder     | 可对自由地绑定接口的实现 |
-| IdWorker   | 唯一Id生成器      |
-| Refecter   | 反射器          |
-| TimeUtils  | 时间工具类        |
-| BaseMapper | 实体类标准接口      |
+| 类             | 功能简介         |
+|---------------|--------------|
+| Holder        | 可对自由地绑定接口的实现 |
+| IdWorker      | 唯一Id生成器      |
+| Refecter      | 反射器          |
+| TimeUtils     | 时间工具类        |
+| BaseMapper    | 实体类标准接口      |
+| ParamReplacer | 文本参数替换       |
