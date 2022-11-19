@@ -18,23 +18,9 @@ interface BaseMapper<T, I> {
     }
 
     /**
-     * 插入[objs]中所有的[T]数据，返回成功的数量
-     */
-    infix fun insertAll(objs: Collection<T>): Int {
-        throw UnsupportedOperationException("未实现的功能")
-    }
-
-    /**
      * 根据编号删除[obj]的数据，通过主键匹配，返回是否成功
      */
     infix fun delete(obj: T): Boolean {
-        throw UnsupportedOperationException("未实现的功能")
-    }
-
-    /**
-     * 根据编号删除[objs]中所有[T]数据，返回删除的数量
-     */
-    infix fun deleteAll(objs: Collection<T>): Int {
         throw UnsupportedOperationException("未实现的功能")
     }
 
