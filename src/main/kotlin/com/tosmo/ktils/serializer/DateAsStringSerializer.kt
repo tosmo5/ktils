@@ -11,7 +11,8 @@ import java.util.*
 
 object DateAsStringSerializer : KSerializer<Date> {
 
-    val pattern = SerializerConfig.GLOBAL_CONFIG.datePattern
+    val pattern
+        get() = SerializerConfig.GLOBAL_CONFIG.datePattern
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 

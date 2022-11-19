@@ -15,7 +15,8 @@ import java.time.LocalTime
  */
 object LocalTimeAsStringSerializer : KSerializer<LocalTime> {
 
-    val pattern = SerializerConfig.GLOBAL_CONFIG.timePattern
+    val pattern
+        get() = SerializerConfig.GLOBAL_CONFIG.timePattern
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalTime", PrimitiveKind.STRING)
 

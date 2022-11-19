@@ -1,11 +1,12 @@
 import com.tosmo.ktils.TimeUtils
+import com.tosmo.ktils.serializer.DateAsStringSerializer
+import com.tosmo.ktils.serializer.serializerSet
 
 fun main() {
 
-    val dateStr = "2022-11-18"
-
-    val date = TimeUtils.parseDate(dateStr, TimeUtils.DP_YEAR_MONTH_DAY)
-
-    println(date)
-    println(TimeUtils.format(date, TimeUtils.DP_YEAR_MONTH_DAY))
+    println(DateAsStringSerializer.pattern)
+    serializerSet {
+        it.datePattern = TimeUtils.DP_FULL_FORWORD_SLASH
+    }
+    println(DateAsStringSerializer.pattern)
 }
