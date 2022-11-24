@@ -7,6 +7,7 @@ kotlin utils
 在根 build.gradle 或 settings.gradle中加入
 
 build.gradle
+
 ```groovy
 allprojects {
     repositories {
@@ -16,6 +17,7 @@ allprojects {
 ```
 
 build.gradle.kts
+
 ```kotlin
 repositories {
     maven { setUrl("https://jitpack.io") }
@@ -26,11 +28,12 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.tosmo5:ktils:0.2.6'
+    implementation 'com.github.tosmo5:ktils:0.2.7'
 }
 ```
 
 ## 模块
+
 | 类             | 功能简介         |
 |---------------|--------------|
 | Holder        | 可对自由地绑定接口的实现 |
@@ -39,3 +42,4 @@ dependencies {
 | TimeUtils     | 时间工具类        |
 | BaseMapper    | 实体类标准接口      |
 | ParamReplacer | 文本参数替换       |
+|  SegmentationCalculator | 分段计算器        |
