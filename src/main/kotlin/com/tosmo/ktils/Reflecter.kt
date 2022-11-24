@@ -1,7 +1,10 @@
 package com.tosmo.ktils
 
+import java.math.BigDecimal
+import java.math.BigInteger
 import kotlin.reflect.*
 import kotlin.reflect.full.*
+import kotlin.reflect.jvm.jvmErasure
 
 /**
  * 反射
@@ -67,7 +70,7 @@ object Reflecter {
                     ).all { p -> p.isOptional })
         }.toMutableList()
         // 过滤掉参数类型不匹配的构造函数，并记录参数映射
-        val argsMap = mutableMapOf<KParameter, Any?>()
+        var argsMap = mutableMapOf<KParameter, Any?>()
         val constructor = constructors.filter { initFun ->
             if (initFun.parameters.isEmpty())
                 return@filter true
@@ -92,13 +95,7 @@ object Reflecter {
             it.firstOrNull { initFun -> initFun.parameters.isNotEmpty() }
                 ?: it.first()
         }
-        if (autoTrim) {
-            argsMap.forEach { (key, value) ->
-                if (value is String) {
-                    argsMap[key] = value.trim()
-                }
-            }
-        }
+        argsMap = convertTypes(argsMap, autoTrim)
         return constructor.callBy(argsMap)
     }
 
@@ -113,25 +110,52 @@ object Reflecter {
             tryCreateBeanByNoArgs(kClass).onSuccess { return it }.onFailure { throw it }
         }
         // 转换参数映射
-        val argsMap = mutableMapOf<KParameter, Any?>()
+        var argsMap = mutableMapOf<KParameter, Any?>()
         kClass.constructors.forEach { initFun ->
             initFun.parameters.forEach { kParam ->
                 args[kParam.name]?.let { argsMap.putIfAbsent(kParam, it) }
             }
         }
-        return kClass.constructors.filterNot { initFun ->
+        val constructor = kClass.constructors.filterNot { initFun ->
             initFun.parameters.any { !(it in argsMap || it.isOptional) }
         }.let {
             require(it.isNotEmpty()) { "没有符合的构造函数" }
-            if (autoTrim) {
-                argsMap.forEach { (key, value) ->
-                    if (value is String) {
-                        argsMap[key] = value.trim()
+            (it.firstOrNull { initFun -> initFun.parameters.isNotEmpty() }
+                ?: it.first())
+        }
+        // 转换值类型
+        argsMap = convertTypes(argsMap, autoTrim)
+        return constructor.callBy(argsMap)
+    }
+
+    /**
+     * 转换值类型
+     */
+    internal fun convertTypes(args: Map<KParameter, *>, autoTrim: Boolean = true): MutableMap<KParameter, Any?> {
+        val argsMap = args.toMutableMap()
+        return argsMap.onEach { (key, value) ->
+            when (value) {
+                is String -> if (autoTrim) argsMap[key] = value.trim()
+                is Number -> {
+                    val numberValue = argsMap[key] as Number
+                    argsMap[key] = when (key.type.jvmErasure) {
+                        Byte::class -> numberValue.toByte()
+                        UByte::class -> numberValue.toLong().toUByte()
+                        Short::class -> numberValue.toShort()
+                        UShort::class -> numberValue.toLong().toUShort()
+                        Int::class -> numberValue.toInt()
+                        UInt::class -> numberValue.toLong().toUInt()
+                        Long::class -> numberValue.toLong()
+                        ULong::class -> numberValue.toString().toULong()
+                        Float::class -> numberValue.toFloat()
+                        Double::class -> numberValue.toDouble()
+                        BigDecimal::class -> numberValue.toString().toBigDecimal()
+                        BigInteger::class -> numberValue.toString().toBigInteger()
+                        String::class -> numberValue.toString()
+                        else -> numberValue
                     }
                 }
             }
-            (it.firstOrNull { initFun -> initFun.parameters.isNotEmpty() }
-                ?: it.first()).callBy(argsMap)
         }
     }
 
