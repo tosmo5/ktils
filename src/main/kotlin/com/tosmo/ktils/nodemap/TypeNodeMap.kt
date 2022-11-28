@@ -114,7 +114,7 @@ interface TypeNodeMap<K : TypeKey, N : Node> {
     /**
      * 添加所有键，返回成功数量
      */
-    fun putMultiKeys(key: Collection<K>): Int
+    fun putMultiKeys(keys: Collection<K>): Int
 
     /**
      * 根据键名取得键

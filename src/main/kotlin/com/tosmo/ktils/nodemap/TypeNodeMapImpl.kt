@@ -101,8 +101,8 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
         return keyRepository.addKey(key)
     }
 
-    override fun putMultiKeys(key: Collection<K>): Int {
-        return keyRepository.addAllKeys(keys)
+    override fun putMultiKeys(keys: Collection<K>): Int {
+        return keyRepository.addAllKeys(this.keys)
     }
 
     override fun getKey(keyName: String): K? {
