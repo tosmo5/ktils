@@ -3,11 +3,11 @@ package com.tosmo.ktils.nodemap.data
 import kotlin.reflect.KClass
 
 /**
- * 键要实现的接口
+ * 特定类型键
  *
  * @author Thomas Miao
  */
-interface Key {
+interface TypeKey {
     /**
      * 键名，此值唯一
      */

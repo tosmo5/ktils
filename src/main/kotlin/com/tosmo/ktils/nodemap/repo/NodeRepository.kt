@@ -1,6 +1,6 @@
 package com.tosmo.ktils.nodemap.repo
 
-import com.tosmo.ktils.nodemap.data.Key
+import com.tosmo.ktils.nodemap.data.TypeKey
 import com.tosmo.ktils.nodemap.data.Node
 
 /**
@@ -8,7 +8,7 @@ import com.tosmo.ktils.nodemap.data.Node
  *
  * @author Thomas Miao
  */
-interface NodeRepository<K : Key, N : Node> {
+interface NodeRepository<K : TypeKey, N : Node> {
 
     /**
      * 添加节点，不需要的话返回true

@@ -1,6 +1,6 @@
 package com.tosmo.ktils.nodemap.exception
 
-import com.tosmo.ktils.nodemap.data.Key
+import com.tosmo.ktils.nodemap.data.TypeKey
 
 
 /**
@@ -9,5 +9,5 @@ import com.tosmo.ktils.nodemap.data.Key
  */
 class MissingKeyException(message: String? = null) : Exception("找不到键${message?.let { ":${message}" } ?: ""}") {
 
-    constructor(key: Key) : this("[$key.keyName]")
+    constructor(key: TypeKey) : this("[$key.keyName]")
 }

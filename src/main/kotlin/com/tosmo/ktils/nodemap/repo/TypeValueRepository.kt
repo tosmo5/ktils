@@ -1,15 +1,15 @@
 package com.tosmo.ktils.nodemap.repo
 
-import com.tosmo.ktils.nodemap.data.Key
+import com.tosmo.ktils.nodemap.data.TypeKey
 import com.tosmo.ktils.nodemap.data.Node
-import com.tosmo.ktils.nodemap.data.Value
+import com.tosmo.ktils.nodemap.data.TypeValue
 
 /**
  * 值存储接口
  *
  * @author Thomas Miao
  */
-interface ValueRepository<K : Key, N : Node, out V : Value<*, N>> {
+interface TypeValueRepository<K : TypeKey, N : Node, out V : TypeValue<*, N>> {
 
     /**
      * 添加值[value]，成功返回true

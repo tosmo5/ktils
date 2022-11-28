@@ -1,12 +1,12 @@
 package com.tosmo.ktils.nodemap
 
-import com.tosmo.ktils.nodemap.data.Key
+import com.tosmo.ktils.nodemap.data.TypeKey
 import com.tosmo.ktils.nodemap.data.Node
-import com.tosmo.ktils.nodemap.data.Value
+import com.tosmo.ktils.nodemap.data.TypeValue
 import com.tosmo.ktils.nodemap.exception.MissingKeyException
 import com.tosmo.ktils.nodemap.exception.ValueTypeException
 import com.tosmo.ktils.nodemap.provider.ValueRepositoryProvider
-import com.tosmo.ktils.nodemap.repo.KeyRepository
+import com.tosmo.ktils.nodemap.repo.TypeKeyRepository
 import com.tosmo.ktils.nodemap.repo.NodeRepository
 import kotlin.reflect.full.isSuperclassOf
 
@@ -14,13 +14,13 @@ import kotlin.reflect.full.isSuperclassOf
  *
  * @author Thomas Miao
  */
-class NodeMapImpl<K : Key, N : Node> internal constructor(
-    keyRepo: KeyRepository<K>,
+class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
+    keyRepo: TypeKeyRepository<K>,
     nodeRepo: NodeRepository<K, N>,
     valueRepoProvider: ValueRepositoryProvider<K, N>
-) : NodeMap<K, N> {
+) : TypeNodeMap<K, N> {
 
-    override val keyRepository: KeyRepository<K> = keyRepo
+    override val keyRepository: TypeKeyRepository<K> = keyRepo
 
     override val nodeRepository: NodeRepository<K, N> = nodeRepo
 
@@ -43,13 +43,13 @@ class NodeMapImpl<K : Key, N : Node> internal constructor(
         return keyRepository.hasKeyName(keyName)
     }
 
-    override fun containsValue(keyName: String, value: Value<*, N>): Boolean {
+    override fun containsValue(keyName: String, value: TypeValue<*, N>): Boolean {
         return getKey(keyName)?.let {
             containsValue(it, value)
         } ?: false
     }
 
-    override fun containsValue(key: K, value: Value<*, N>): Boolean {
+    override fun containsValue(key: K, value: TypeValue<*, N>): Boolean {
         return valueRepositoryProvider.provide(key).containsValue(value)
     }
 
@@ -117,21 +117,21 @@ class NodeMapImpl<K : Key, N : Node> internal constructor(
         return keyRepository.getKeysByNames(keyNames)
     }
 
-    override fun getValue(node: N): Value<*, N>? {
+    override fun getValue(node: N): TypeValue<*, N>? {
         return getKey(node)?.let { getValue(it, node) }
     }
 
-    override fun getValue(key: K, node: N): Value<*, N>? {
+    override fun getValue(key: K, node: N): TypeValue<*, N>? {
         return valueRepositoryProvider.provide(key).getValue(node)
     }
 
-    override fun setValue(node: N, value: Value<*, N>): Boolean {
+    override fun setValue(node: N, value: TypeValue<*, N>): Boolean {
         return getKey(node)?.let {
             setValue(it, node, value)
         } ?: throw MissingKeyException()
     }
 
-    override fun setValue(key: K, node: N, value: Value<*, N>): Boolean {
+    override fun setValue(key: K, node: N, value: TypeValue<*, N>): Boolean {
         // 判断值的类型是否正确
         if (!checkValueType(key, value)) {
             throw ValueTypeException(key, value)
@@ -153,24 +153,24 @@ class NodeMapImpl<K : Key, N : Node> internal constructor(
         return getKey(keyName)?.let { getDefaultNode(it) }
     }
 
-    override fun getDefaultValue(keyName: String): Value<*, N>? {
+    override fun getDefaultValue(keyName: String): TypeValue<*, N>? {
         return getKey(keyName)?.let { getDefaultValue(it) }
     }
 
-    override fun getDefaultValue(key: K): Value<*, N>? {
+    override fun getDefaultValue(key: K): TypeValue<*, N>? {
         return nodeRepository.getDefaultNode(key)?.let {// 取得默认节点
             valueRepositoryProvider.provide(key).getValue(it)
         }
     }
 
-    override fun setDefaultValue(keyName: String, value: Value<*, N>): Boolean {
+    override fun setDefaultValue(keyName: String, value: TypeValue<*, N>): Boolean {
         // 取出值对象
         return getKey(keyName)?.let { key ->
             setDefaultValue(key, value)
         } ?: throw MissingKeyException("[${keyName}]")
     }
 
-    override fun setDefaultValue(key: K, value: Value<*, N>): Boolean {
+    override fun setDefaultValue(key: K, value: TypeValue<*, N>): Boolean {
         // 判断值的类型是否正确
         if (!checkValueType(key, value)) {
             throw ValueTypeException(key, value)
@@ -185,7 +185,7 @@ class NodeMapImpl<K : Key, N : Node> internal constructor(
         }
     }
 
-    internal fun checkValueType(key: Key, value: Value<*, *>): Boolean {
+    internal fun checkValueType(key: TypeKey, value: TypeValue<*, *>): Boolean {
         return value.valueValue?.let {
             key.typeKClass.isSuperclassOf(it::class)
         } ?: true

@@ -1,11 +1,11 @@
 package com.tosmo.ktils.nodemap.data
 
 /**
- * 值要实现的接口
+ * 值
  *
  * @author Thomas Miao
  */
-interface Value<T, N : Node> {
+interface TypeValue<T, N : Node> {
     /**
      * 值的值
      */

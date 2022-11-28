@@ -1,13 +1,13 @@
 package com.tosmo.ktils.nodemap.repo
 
-import com.tosmo.ktils.nodemap.data.Key
+import com.tosmo.ktils.nodemap.data.TypeKey
 
 /**
  * 键的存储接口
  *
  * @author Thomas Miao
  */
-interface KeyRepository<K : Key> {
+interface TypeKeyRepository<K : TypeKey> {
     /**
      * 添加
      */

@@ -1,13 +1,13 @@
 package com.tosmo.ktils.nodemap
 
-import com.tosmo.ktils.nodemap.data.Key
+import com.tosmo.ktils.nodemap.data.TypeKey
 import com.tosmo.ktils.nodemap.data.Node
-import com.tosmo.ktils.nodemap.data.Value
+import com.tosmo.ktils.nodemap.data.TypeValue
 import com.tosmo.ktils.nodemap.exception.MissingKeyException
 import com.tosmo.ktils.nodemap.exception.MissingNodeException
 import com.tosmo.ktils.nodemap.exception.ValueTypeException
 import com.tosmo.ktils.nodemap.provider.ValueRepositoryProvider
-import com.tosmo.ktils.nodemap.repo.KeyRepository
+import com.tosmo.ktils.nodemap.repo.TypeKeyRepository
 import com.tosmo.ktils.nodemap.repo.NodeRepository
 
 /**
@@ -15,12 +15,12 @@ import com.tosmo.ktils.nodemap.repo.NodeRepository
  *
  * @author Thomas Miao
  */
-interface NodeMap<K : Key, N : Node> {
+interface TypeNodeMap<K : TypeKey, N : Node> {
 
     /**
      * 键存储接口
      */
-    val keyRepository: KeyRepository<K>
+    val keyRepository: TypeKeyRepository<K>
 
     /**
      * 节点存储接口
@@ -60,12 +60,12 @@ interface NodeMap<K : Key, N : Node> {
     /**
      * 是否有值[value]
      */
-    fun containsValue(keyName: String, value: Value<*, N>): Boolean
+    fun containsValue(keyName: String, value: TypeValue<*, N>): Boolean
 
     /**
      * 是否有值[value]
      */
-    fun containsValue(key: K, value: Value<*, N>): Boolean
+    fun containsValue(key: K, value: TypeValue<*, N>): Boolean
 
     /**
      * 清空所有的值，返回删除的值数
@@ -134,14 +134,14 @@ interface NodeMap<K : Key, N : Node> {
     /**
      * 取得节点[node]下的值
      */
-    fun getValue(node: N): Value<*, N>?
+    fun getValue(node: N): TypeValue<*, N>?
 
     /**
      * 取得节点[node]下的值
      *
      * @param key 提供后不再查询键
      */
-    fun getValue(key: K, node: N): Value<*, N>?
+    fun getValue(key: K, node: N): TypeValue<*, N>?
 
     /**
      * 设置[node]的值为[value]，如果不存在，则新增
@@ -149,7 +149,7 @@ interface NodeMap<K : Key, N : Node> {
      * @exception ValueTypeException
      * @exception MissingKeyException
      */
-    fun setValue(node: N, value: Value<*, N>): Boolean
+    fun setValue(node: N, value: TypeValue<*, N>): Boolean
 
     /**
      * 设置[node]的值为[value]，如果不存在，则新增
@@ -159,7 +159,7 @@ interface NodeMap<K : Key, N : Node> {
      * @exception ValueTypeException
      * @exception MissingKeyException
      */
-    fun setValue(key: K, node: N, value: Value<*, N>): Boolean
+    fun setValue(key: K, node: N, value: TypeValue<*, N>): Boolean
 
     /**
      * 取得默认节点
@@ -174,12 +174,12 @@ interface NodeMap<K : Key, N : Node> {
     /**
      * 取得[keyName]的默认值，找不到返回空
      */
-    fun getDefaultValue(keyName: String): Value<*, N>?
+    fun getDefaultValue(keyName: String): TypeValue<*, N>?
 
     /**
      * 取得[key]的默认值，找不到返回空
      */
-    fun getDefaultValue(key: K): Value<*, N>?
+    fun getDefaultValue(key: K): TypeValue<*, N>?
 
     /**
      * 更新或新增[keyName]默认值为[value]
@@ -188,7 +188,7 @@ interface NodeMap<K : Key, N : Node> {
      * @exception MissingKeyException
      * @exception MissingNodeException
      */
-    fun setDefaultValue(keyName: String, value: Value<*, N>): Boolean
+    fun setDefaultValue(keyName: String, value: TypeValue<*, N>): Boolean
 
     /**
      * 更新或新增[key]默认值为[value]
@@ -197,5 +197,5 @@ interface NodeMap<K : Key, N : Node> {
      * @exception MissingKeyException
      * @exception MissingNodeException
      */
-    fun setDefaultValue(key: K, value: Value<*, N>): Boolean
+    fun setDefaultValue(key: K, value: TypeValue<*, N>): Boolean
 }
