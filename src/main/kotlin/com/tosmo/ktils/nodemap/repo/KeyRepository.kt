@@ -24,11 +24,6 @@ interface KeyRepository<K : Key> {
     fun deleteKey(key: K): Boolean
 
     /**
-     * 根据键名[keyName]删除
-     */
-    fun deleteKeyByName(keyName: String): Boolean
-
-    /**
      * 删除所有的键，返回成功的数量
      */
     fun deleteAllKeys(): Int

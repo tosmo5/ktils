@@ -9,31 +9,27 @@ import com.tosmo.ktils.nodemap.data.Value
  *
  * @author Thomas Miao
  */
-interface ValueRepository<K : Key, N : Node, out V : Value<*, *>> {
+interface ValueRepository<K : Key, N : Node, out V : Value<*, N>> {
+
     /**
-     * 在节点[node]添加值[value]，成功返回true
+     * 添加值[value]，成功返回true
      */
-    fun addValue(key: K, node: N, value: @UnsafeVariance V): Boolean
+    fun addValue(value: @UnsafeVariance V): Boolean
 
     /**
      * 修改值
      */
-    fun updateValue(key: K, node: N, value: @UnsafeVariance V): Boolean
+    fun updateValue(value: @UnsafeVariance V): Boolean
 
     /**
      * 根据节点取得值
      */
-    fun getValue(key: K, node: N): V?
+    fun getValue(node: N): V?
 
     /**
-     * 根据键取得所有值
+     * [value]是否已存在
      */
-    fun getKeyValues(key: K): List<V>
-
-    /**
-     * [value]在[node]下是否已存在
-     */
-    fun containsValue(node: N, value: @UnsafeVariance V): Boolean
+    fun containsValue(value: @UnsafeVariance V): Boolean
 
     /**
      * 根据键删除值

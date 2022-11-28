@@ -11,7 +11,7 @@ import com.tosmo.ktils.nodemap.repo.KeyRepository
 import com.tosmo.ktils.nodemap.repo.NodeRepository
 
 /**
- * 多节点映射集合
+ * 节点映射集合
  *
  * @author Thomas Miao
  */
@@ -58,41 +58,43 @@ interface NodeMap<K : Key, N : Node> {
     fun containsKey(keyName: String): Boolean
 
     /**
-     * 是否含有节点[node]
+     * 是否有值[value]
      */
-    fun containsNode(node: N): Boolean
+    fun containsValue(keyName: String, value: Value<*, N>): Boolean
 
     /**
      * 是否有值[value]
      */
-    fun containsValue(keyName: String, node: N, value: Value<*, N>): Boolean
-
-    /**
-     * 是否有值[value]
-     */
-    fun containsValue(key: K, node: N, value: Value<*, N>): Boolean
+    fun containsValue(key: K, value: Value<*, N>): Boolean
 
     /**
      * 清空所有的值，返回删除的值数
-     *
-     * @param clearNodes true：时同时删除节点
      */
-    fun clearValues(clearNodes: Boolean = true): Int
+    fun clearValues(): Int
 
     /**
-     * 删除键名为[keyName]键的所有值，返回删除的值数
-     *
-     * @param clearNodes true：时同时删除节点
+     * 删除键名为[keyName]键的所有值和节点，返回删除的值数
      */
-    fun clearKeyValues(keyName: String, clearNodes: Boolean = true): Int
+    fun clearKeyValues(keyName: String): Int
+
+    /**
+     * 删除键[key]的所有值和节点，返回删除的值数
+     */
+    fun clearKeyValues(key: K): Int
 
     /**
      * 删除键名为[keyName]的键
      *
      * @param clearValues true：同时删除对应的值
-     * @param clearNodes true：同时删除节点
      */
-    fun clearKey(keyName: String, clearValues: Boolean = true, clearNodes: Boolean = true)
+    fun clearKey(keyName: String, clearValues: Boolean = true)
+
+    /**
+     * 删除键[key]的键
+     *
+     * @param clearValues true：同时删除对应的值
+     */
+    fun clearKey(key: K, clearValues: Boolean = true)
 
     /**
      * 清空所有键、节点、值，返回删除的键数
@@ -103,11 +105,6 @@ interface NodeMap<K : Key, N : Node> {
      * 是否没有键
      */
     fun isKeysEmpty(): Boolean
-
-    /**
-     * 检察节点下是否没有值
-     */
-    fun isNodeValuesEmpty(node: N): Boolean
 
     /**
      * 添加键
@@ -125,34 +122,54 @@ interface NodeMap<K : Key, N : Node> {
     fun getKey(keyName: String): K?
 
     /**
+     * 根据节点取得键
+     */
+    fun getKey(node: N): K?
+
+    /**
      * 根据键名批量取得键
      */
     fun getMutliKeys(keyNames: Collection<String>): List<K>
 
     /**
-     * 取得[keyName]在节点[node]下的值
+     * 取得节点[node]下的值
      */
-    fun getValue(keyName: String, node: N): Value<*, N>?
+    fun getValue(node: N): Value<*, N>?
 
     /**
-     * 取得[key]在节点[node]下的值
+     * 取得节点[node]下的值
+     *
+     * @param key 提供后不再查询键
      */
     fun getValue(key: K, node: N): Value<*, N>?
 
     /**
-     * 设置键[keyName]的值为[value]，如果不存在，则新增
+     * 设置[node]的值为[value]，如果不存在，则新增
      *
      * @exception ValueTypeException
      * @exception MissingKeyException
      */
-    fun setValue(keyName: String, node: N, value: Value<*, N>): Boolean
+    fun setValue(node: N, value: Value<*, N>): Boolean
 
     /**
-     * 设置键[key]的值为[value]，如果不存在，则新增
+     * 设置[node]的值为[value]，如果不存在，则新增
+     *
+     * @param key 提供后不再查询键
      *
      * @exception ValueTypeException
+     * @exception MissingKeyException
      */
     fun setValue(key: K, node: N, value: Value<*, N>): Boolean
+
+    /**
+     * 取得默认节点
+     */
+    fun getDefaultNode(key: K): N?
+
+    /**
+     * 取得默认节点
+     */
+    fun getDefaultNode(keyName: String): N?
 
     /**
      * 取得[keyName]的默认值，找不到返回空
@@ -181,9 +198,4 @@ interface NodeMap<K : Key, N : Node> {
      * @exception MissingNodeException
      */
     fun setDefaultValue(key: K, value: Value<*, N>): Boolean
-
-    /**
-     * 确定[value]的值是否为[key]允许的类型
-     */
-    fun checkValueType(key: Key, value: Value<*, *>): Boolean
 }

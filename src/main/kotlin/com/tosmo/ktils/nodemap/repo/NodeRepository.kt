@@ -11,47 +11,27 @@ import com.tosmo.ktils.nodemap.data.Node
 interface NodeRepository<K : Key, N : Node> {
 
     /**
-     * 根据键名取得默认节点
+     * 添加节点，不需要的话返回true
      */
-    fun getDefaultNode(keyName: String): N?
+    fun addNode(node: N): Boolean = true
 
     /**
-     * 根据键名取得的所有节点
+     * 删除所有节点，不需要的话返回true
      */
-    fun getNodesByKeyName(keyName: String): List<N>
+    fun deleteAllNode(): Boolean = true
 
     /**
-     * 取得[key]的所有节点
+     * 删除键的所有节点，不需要直接返回0
      */
-    fun getNodesByKey(key: K): List<N>
+    fun deleteByKey(key: K): Int = 0
 
     /**
-     * 取得所有节点
+     * 根据键取得默认节点
      */
-    fun getAllNodes(): List<N>
+    fun getDefaultNode(key: K): N?
 
     /**
-     * 根据[node]取得键
+     * 取得节点对应的键
      */
-    fun getNodeKey(node: N): K?
-
-    /**
-     * 查询是否存在此节点
-     */
-    fun hasNode(node: N): Boolean
-
-    /**
-     * 查询节点[node]下是是否没有数据
-     */
-    fun isNodeNoValues(node: N): Boolean
-
-    /**
-     * 查询[node]是否存在
-     */
-    fun containsNode(node: N): Boolean
-
-    /**
-     * 删除[key]下的所有节点
-     */
-    fun deleteKeyNodes(key: K): Int
+    fun getKeyByNode(node: N): K?
 }

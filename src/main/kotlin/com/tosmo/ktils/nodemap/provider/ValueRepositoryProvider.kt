@@ -12,7 +12,7 @@ import com.tosmo.ktils.nodemap.repo.ValueRepository
  */
 fun interface ValueRepositoryProvider<K : Key, N : Node> {
     /**
-     * @param key 值
+     * @param key 键
      * @return 值的操作接口
      */
     fun provide(key: K): ValueRepository<K, N, Value<*, N>>
