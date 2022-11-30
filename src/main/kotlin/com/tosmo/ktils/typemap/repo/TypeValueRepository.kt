@@ -1,8 +1,8 @@
-package com.tosmo.ktils.nodemap.repo
+package com.tosmo.ktils.typemap.repo
 
-import com.tosmo.ktils.nodemap.data.TypeKey
-import com.tosmo.ktils.nodemap.data.Index
-import com.tosmo.ktils.nodemap.data.TypeValue
+import com.tosmo.ktils.typemap.data.TypeKey
+import com.tosmo.ktils.typemap.data.Index
+import com.tosmo.ktils.typemap.data.TypeValue
 
 /**
  * 值存储接口

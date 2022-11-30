@@ -1,4 +1,4 @@
-package com.tosmo.ktils.nodemap.exception
+package com.tosmo.ktils.typemap.exception
 
 /**
  *

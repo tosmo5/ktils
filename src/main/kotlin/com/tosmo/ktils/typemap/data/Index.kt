@@ -1,4 +1,4 @@
-package com.tosmo.ktils.nodemap.data
+package com.tosmo.ktils.typemap.data
 
 /**
  * 值的索引，用于找到键或在明确值的类型后找到值

@@ -1,4 +1,4 @@
-package com.tosmo.ktils.nodemap.data
+package com.tosmo.ktils.typemap.data
 
 import kotlin.reflect.KClass
 

@@ -1,9 +1,9 @@
-package com.tosmo.ktils.nodemap.provider
+package com.tosmo.ktils.typemap.provider
 
-import com.tosmo.ktils.nodemap.data.TypeKey
-import com.tosmo.ktils.nodemap.data.Index
-import com.tosmo.ktils.nodemap.data.TypeValue
-import com.tosmo.ktils.nodemap.repo.TypeValueRepository
+import com.tosmo.ktils.typemap.data.TypeKey
+import com.tosmo.ktils.typemap.data.Index
+import com.tosmo.ktils.typemap.data.TypeValue
+import com.tosmo.ktils.typemap.repo.TypeValueRepository
 
 /**
  * 值存储接口分配器

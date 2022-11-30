@@ -1,6 +1,6 @@
-package com.tosmo.ktils.nodemap.exception
+package com.tosmo.ktils.typemap.exception
 
-import com.tosmo.ktils.nodemap.data.TypeKey
+import com.tosmo.ktils.typemap.data.TypeKey
 
 
 /**

@@ -1,6 +1,6 @@
-package com.tosmo.ktils.nodemap.repo
+package com.tosmo.ktils.typemap.repo
 
-import com.tosmo.ktils.nodemap.data.TypeKey
+import com.tosmo.ktils.typemap.data.TypeKey
 
 /**
  * 键的存储接口

@@ -1,13 +1,13 @@
-package com.tosmo.ktils.nodemap
+package com.tosmo.ktils.typemap
 
-import com.tosmo.ktils.nodemap.data.TypeKey
-import com.tosmo.ktils.nodemap.data.Index
-import com.tosmo.ktils.nodemap.data.TypeValue
-import com.tosmo.ktils.nodemap.exception.MissingKeyException
-import com.tosmo.ktils.nodemap.exception.ValueTypeException
-import com.tosmo.ktils.nodemap.provider.ValueRepositoryProvider
-import com.tosmo.ktils.nodemap.repo.TypeKeyRepository
-import com.tosmo.ktils.nodemap.repo.IndexRepository
+import com.tosmo.ktils.typemap.data.TypeKey
+import com.tosmo.ktils.typemap.data.Index
+import com.tosmo.ktils.typemap.data.TypeValue
+import com.tosmo.ktils.typemap.exception.MissingKeyException
+import com.tosmo.ktils.typemap.exception.ValueTypeException
+import com.tosmo.ktils.typemap.provider.ValueRepositoryProvider
+import com.tosmo.ktils.typemap.repo.TypeKeyRepository
+import com.tosmo.ktils.typemap.repo.IndexRepository
 import kotlin.reflect.full.isSuperclassOf
 
 /**
