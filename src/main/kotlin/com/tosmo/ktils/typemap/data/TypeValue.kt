@@ -5,7 +5,7 @@ package com.tosmo.ktils.typemap.data
  *
  * @author Thomas Miao
  */
-interface TypeValue<T, N : Index> {
+interface TypeValue<T, I : Index> {
     /**
      * 值的值
      */
