@@ -9,52 +9,52 @@ import com.tosmo.ktils.nodemap.data.TypeKey
  */
 interface TypeKeyRepository<K : TypeKey> {
     /**
-     * 添加
+     * 添加[key]
      */
     fun addKey(key: K): Boolean
 
     /**
-     * 添加[keys]中所有的键，返回成功的数量
+     * 添加[keys]中所有的[TypeKey]，返回成功的数量
      */
     fun addAllKeys(keys: Collection<K>): Int
 
     /**
-     * 根据[key]删除
+     * 删除[key]，返回删除结果
      */
     fun deleteKey(key: K): Boolean
 
     /**
-     * 删除所有的键，返回成功的数量
+     * 删除所有的[TypeKey]，返回成功的数量
      */
     fun deleteAllKeys(): Int
 
     /**
-     * 取得键名为[keyName]的键
+     * 取得键名为[keyName]的[TypeKey]
      */
     fun getKeyByName(keyName: String): K?
 
     /**
-     * 根据键名集合，取得对应的所有键
+     * 根据[keyNames]集合，取得对应的所有[TypeKey]
      */
     fun getKeysByNames(keyNames: Collection<String>): List<K>
 
     /**
-     * 取得保存的所有键
+     * 取得保存的所有[TypeKey]
      */
     fun getAllKeys(): List<K>
 
     /**
-     * 取得保存的所有键的名称
+     * 取得保存的所有[TypeKey]的名称
      */
     fun getAllKeyNames(): List<String>
 
     /**
-     * 查询是否没有键
+     * 查询是否没有[TypeKey]
      */
     fun isNoKey(): Boolean
 
     /**
-     * 查询是否存在键名
+     * 查询是否存在名为[keyName]的[TypeKey]
      */
     fun hasKeyName(keyName: String): Boolean
 
@@ -64,7 +64,7 @@ interface TypeKeyRepository<K : TypeKey> {
     fun hasKey(key: K): Boolean
 
     /**
-     * 计算键的数量
+     * 计算[TypeKey]的数量
      */
     fun countKey(): Int
 }

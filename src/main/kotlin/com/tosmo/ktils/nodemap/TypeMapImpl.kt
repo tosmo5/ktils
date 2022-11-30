@@ -1,28 +1,28 @@
 package com.tosmo.ktils.nodemap
 
 import com.tosmo.ktils.nodemap.data.TypeKey
-import com.tosmo.ktils.nodemap.data.Node
+import com.tosmo.ktils.nodemap.data.Index
 import com.tosmo.ktils.nodemap.data.TypeValue
 import com.tosmo.ktils.nodemap.exception.MissingKeyException
 import com.tosmo.ktils.nodemap.exception.ValueTypeException
 import com.tosmo.ktils.nodemap.provider.ValueRepositoryProvider
 import com.tosmo.ktils.nodemap.repo.TypeKeyRepository
-import com.tosmo.ktils.nodemap.repo.NodeRepository
+import com.tosmo.ktils.nodemap.repo.IndexRepository
 import kotlin.reflect.full.isSuperclassOf
 
 /**
  *
  * @author Thomas Miao
  */
-class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
+class TypeMapImpl<K : TypeKey, N : Index> internal constructor(
     keyRepo: TypeKeyRepository<K>,
-    nodeRepo: NodeRepository<K, N>,
+    nodeRepo: IndexRepository<K, N>,
     valueRepoProvider: ValueRepositoryProvider<K, N>
-) : TypeNodeMap<K, N> {
+) : TypeMap<K, N> {
 
     override val keyRepository: TypeKeyRepository<K> = keyRepo
 
-    override val nodeRepository: NodeRepository<K, N> = nodeRepo
+    override val indexRepository: IndexRepository<K, N> = nodeRepo
 
     override val valueRepositoryProvider: ValueRepositoryProvider<K, N> = valueRepoProvider
 
@@ -54,7 +54,7 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
     }
 
     override fun clearValues(): Int {
-        nodeRepository.deleteAllNode()
+        indexRepository.deleteAllNode()
         return keys.sumOf {
             valueRepositoryProvider.provide(it).deleteByKey(it)
         }
@@ -66,7 +66,7 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
 
     override fun clearKeyValues(key: K): Int {
         // 根据键除节点
-        nodeRepository.deleteByKey(key)
+        indexRepository.deleteByKey(key)
         // 根据键分配值的存储接口并删除键的值，返回删除的个数
         return valueRepositoryProvider.provide(key).deleteByKey(key)
     }
@@ -79,7 +79,7 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
 
     override fun clearKey(key: K, clearValues: Boolean) {
         // 根据键除节点
-        nodeRepository.deleteByKey(key)
+        indexRepository.deleteByKey(key)
         if (clearValues) {
             // 根据键分配值的存储接口并删除键的值，返回删除的个数
             valueRepositoryProvider.provide(key).deleteByKey(key)
@@ -110,28 +110,28 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
     }
 
     override fun getKey(node: N): K? {
-        return nodeRepository.getKeyByNode(node)
+        return indexRepository.getKeyByNode(node)
     }
 
     override fun getMutliKeys(keyNames: Collection<String>): List<K> {
         return keyRepository.getKeysByNames(keyNames)
     }
 
-    override fun getValue(node: N): TypeValue<*, N>? {
-        return getKey(node)?.let { getValue(it, node) }
+    override fun getValue(index: N): TypeValue<*, N>? {
+        return getKey(index)?.let { getValue(it, index) }
     }
 
-    override fun getValue(key: K, node: N): TypeValue<*, N>? {
-        return valueRepositoryProvider.provide(key).getValue(node)
+    override fun getValue(key: K, index: N): TypeValue<*, N>? {
+        return valueRepositoryProvider.provide(key).getValue(index)
     }
 
-    override fun setValue(node: N, value: TypeValue<*, N>): Boolean {
-        return getKey(node)?.let {
-            setValue(it, node, value)
+    override fun setValue(index: N, value: TypeValue<*, N>): Boolean {
+        return getKey(index)?.let {
+            setValue(it, index, value)
         } ?: throw MissingKeyException()
     }
 
-    override fun setValue(key: K, node: N, value: TypeValue<*, N>): Boolean {
+    override fun setValue(key: K, index: N, value: TypeValue<*, N>): Boolean {
         // 判断值的类型是否正确
         if (!checkValueType(key, value)) {
             throw ValueTypeException(key, value)
@@ -142,11 +142,11 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
             valueRepo.updateValue(value)
         } else {
             valueRepo.addValue(value)
-        } && nodeRepository.addNode(node)
+        } && indexRepository.addNode(index)
     }
 
     override fun getDefaultNode(key: K): N? {
-        return nodeRepository.getDefaultNode(key)
+        return indexRepository.getDefaultNode(key)
     }
 
     override fun getDefaultNode(keyName: String): N? {
@@ -158,7 +158,7 @@ class TypeNodeMapImpl<K : TypeKey, N : Node> internal constructor(
     }
 
     override fun getDefaultValue(key: K): TypeValue<*, N>? {
-        return nodeRepository.getDefaultNode(key)?.let {// 取得默认节点
+        return indexRepository.getDefaultNode(key)?.let {// 取得默认节点
             valueRepositoryProvider.provide(key).getValue(it)
         }
     }

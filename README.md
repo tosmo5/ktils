@@ -28,7 +28,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.tosmo5:ktils:0.3.1'
+    implementation 'com.github.tosmo5:ktils:0.3.2'
 }
 ```
 
@@ -43,4 +43,4 @@ dependencies {
 | BaseMapper             | 实体类标准接口     |
 | ParamReplacer          | 文本参数替换      |
 | SegmentationCalculator | 分段计算器       |
-| TypeNodeMap            | 分类存储的节点映射集合 |
+| TypeMap            | 分类存储的映射集合 |

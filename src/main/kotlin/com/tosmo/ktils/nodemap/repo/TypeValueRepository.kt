@@ -1,7 +1,7 @@
 package com.tosmo.ktils.nodemap.repo
 
 import com.tosmo.ktils.nodemap.data.TypeKey
-import com.tosmo.ktils.nodemap.data.Node
+import com.tosmo.ktils.nodemap.data.Index
 import com.tosmo.ktils.nodemap.data.TypeValue
 
 /**
@@ -9,7 +9,7 @@ import com.tosmo.ktils.nodemap.data.TypeValue
  *
  * @author Thomas Miao
  */
-interface TypeValueRepository<K : TypeKey, N : Node, out V : TypeValue<*, N>> {
+interface TypeValueRepository<K : TypeKey, I : Index, out V : TypeValue<*, I>> {
 
     /**
      * 添加值[value]，成功返回true
@@ -24,7 +24,7 @@ interface TypeValueRepository<K : TypeKey, N : Node, out V : TypeValue<*, N>> {
     /**
      * 根据节点取得值
      */
-    fun getValue(node: N): V?
+    fun getValue(index: I): V?
 
     /**
      * [value]是否已存在

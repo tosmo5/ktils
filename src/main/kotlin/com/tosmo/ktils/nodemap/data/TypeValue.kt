@@ -5,7 +5,7 @@ package com.tosmo.ktils.nodemap.data
  *
  * @author Thomas Miao
  */
-interface TypeValue<T, N : Node> {
+interface TypeValue<T, N : Index> {
     /**
      * 值的值
      */
