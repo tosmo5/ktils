@@ -14,7 +14,7 @@ import kotlin.reflect.full.isSuperclassOf
  *
  * @author Thomas Miao
  */
-class TypeMapImpl<K : TypeKey, N : Index> internal constructor(
+internal class TypeMapImpl<K : TypeKey, N : Index>(
     keyRepo: TypeKeyRepository<K>,
     nodeRepo: IndexRepository<K, N>,
     valueRepoProvider: ValueRepositoryProvider<K, N>
