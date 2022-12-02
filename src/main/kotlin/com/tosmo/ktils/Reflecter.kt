@@ -2,6 +2,10 @@ package com.tosmo.ktils
 
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.util.Date
 import kotlin.reflect.*
 import kotlin.reflect.full.*
 import kotlin.reflect.jvm.jvmErasure
@@ -152,6 +156,19 @@ object Reflecter {
                         BigDecimal::class -> numberValue.toString().toBigDecimal()
                         BigInteger::class -> numberValue.toString().toBigInteger()
                         String::class -> numberValue.toString()
+                        Date::class -> Date(numberValue.toLong())
+                        LocalDate::class -> TimeUtils.format(Date(numberValue.toLong())).let {
+                            TimeUtils.parseLocalDateTime(it).toLocalDate()
+                        }
+
+                        LocalTime::class -> TimeUtils.format(Date(numberValue.toLong())).let {
+                            TimeUtils.parseLocalTime(it)
+                        }
+
+                        LocalDateTime::class -> TimeUtils.format(Date(numberValue.toLong())).let {
+                            TimeUtils.parseLocalDateTime(it)
+                        }
+
                         else -> numberValue
                     }
                 }
@@ -241,5 +258,12 @@ object Reflecter {
             }
         }
         return map
+    }
+
+    /**
+     * 将[obj]中的属性复制到新的[target]对象中
+     */
+    fun <T : Any> transfer(obj: Any, target: KClass<T>): T {
+        return createBean(target, mapProps(obj))
     }
 }
