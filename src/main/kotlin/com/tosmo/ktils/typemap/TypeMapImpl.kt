@@ -106,7 +106,7 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
     }
 
     override fun getKey(keyValue: String): K? {
-        return keyRepository.getKeyByName(keyValue)
+        return keyRepository.getKeyByKeyValue(keyValue)
     }
 
     override fun getKey(node: N): K? {

@@ -31,7 +31,7 @@ interface TypeKeyRepository<K : TypeKey> {
     /**
      * 取得键名为[keyValue]的[TypeKey]
      */
-    fun getKeyByName(keyValue: String): K?
+    fun getKeyByKeyValue(keyValue: String): K?
 
     /**
      * 根据[keyValues]集合，取得对应的所有[TypeKey]
