@@ -54,7 +54,7 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
     }
 
     override fun clearValues(): Int {
-        indexRepository.deleteAllNode()
+        indexRepository.deleteAllIndex()
         return keys.sumOf {
             valueRepositoryProvider.provide(it).deleteByKey(it)
         }
@@ -110,7 +110,7 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
     }
 
     override fun getKey(node: N): K? {
-        return indexRepository.getKeyByNode(node)
+        return indexRepository.getKeyByIndex(node)
     }
 
     override fun getMutliKeys(keyValues: Collection<String>): List<K> {
@@ -142,15 +142,15 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
             valueRepo.updateValue(value)
         } else {
             valueRepo.addValue(value)
-        } && indexRepository.addNode(index)
+        } && indexRepository.addIndex(index)
     }
 
-    override fun getDefaultNode(key: K): N? {
-        return indexRepository.getDefaultNode(key)
+    override fun getDefaultIndex(key: K): N? {
+        return indexRepository.getDefaultIndex(key)
     }
 
-    override fun getDefaultNode(keyValue: String): N? {
-        return getKey(keyValue)?.let { getDefaultNode(it) }
+    override fun getDefaultIndex(keyValue: String): N? {
+        return getKey(keyValue)?.let { getDefaultIndex(it) }
     }
 
     override fun getDefaultValue(keyValue: String): TypeValue<*, N>? {
@@ -158,7 +158,7 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
     }
 
     override fun getDefaultValue(key: K): TypeValue<*, N>? {
-        return indexRepository.getDefaultNode(key)?.let {// 取得默认节点
+        return indexRepository.getDefaultIndex(key)?.let {// 取得默认节点
             valueRepositoryProvider.provide(key).getValue(it)
         }
     }

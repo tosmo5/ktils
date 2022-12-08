@@ -164,12 +164,12 @@ interface TypeMap<K : TypeKey, I : Index> {
     /**
      * 取得默认[Index]
      */
-    fun getDefaultNode(key: K): I?
+    fun getDefaultIndex(key: K): I?
 
     /**
      * 取得默认[Index]
      */
-    fun getDefaultNode(keyValue: String): I?
+    fun getDefaultIndex(keyValue: String): I?
 
     /**
      * 取得[keyValue]的默认值，找不到返回空

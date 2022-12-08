@@ -11,18 +11,18 @@ import com.tosmo.ktils.typemap.repo.IndexRepository
  *
  * @author Thomas Miao
  */
-class TypeMapBuilder<K : TypeKey, N : Index> {
+class TypeMapBuilder<K : TypeKey, I : Index> {
 
     private lateinit var mKeyRepo: TypeKeyRepository<K>
 
-    private lateinit var mIndexRepo: IndexRepository<K, N>
+    private lateinit var mIndexRepo: IndexRepository<K, I>
 
-    private lateinit var mValueRepoProvider: ValueRepositoryProvider<K, N>
+    private lateinit var mValueRepoProvider: ValueRepositoryProvider<K, I>
 
     /**
      * 构造一个[TypeMap]
      */
-    fun build(): TypeMap<K, N> {
+    fun build(): TypeMap<K, I> {
         require(this::mKeyRepo.isInitialized) { "未初始化：${mKeyRepo::class}" }
         require(this::mIndexRepo.isInitialized) { "未初始化：${mIndexRepo::class}" }
         require(this::mValueRepoProvider.isInitialized) { "未初始化：${mValueRepoProvider::class}" }
@@ -32,7 +32,7 @@ class TypeMapBuilder<K : TypeKey, N : Index> {
     /**
      * 设置[TypeKeyRepository]
      */
-    fun setKeyRepository(repo: TypeKeyRepository<K>): TypeMapBuilder<K, N> {
+    fun setKeyRepository(repo: TypeKeyRepository<K>): TypeMapBuilder<K, I> {
         mKeyRepo = repo
         return this
     }
@@ -40,7 +40,7 @@ class TypeMapBuilder<K : TypeKey, N : Index> {
     /**
      * 设置[IndexRepository]
      */
-    fun setIndexRepository(repo: IndexRepository<K, N>): TypeMapBuilder<K, N> {
+    fun setIndexRepository(repo: IndexRepository<K, I>): TypeMapBuilder<K, I> {
         mIndexRepo = repo
         return this
     }
@@ -48,7 +48,7 @@ class TypeMapBuilder<K : TypeKey, N : Index> {
     /**
      * 设置[ValueRepositoryProvider]
      */
-    fun setValueRepositoryProvider(provider: ValueRepositoryProvider<K, N>): TypeMapBuilder<K, N> {
+    fun setValueRepositoryProvider(provider: ValueRepositoryProvider<K, I>): TypeMapBuilder<K, I> {
         mValueRepoProvider = provider
         return this
     }
