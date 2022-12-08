@@ -39,12 +39,12 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         return keyRepository.hasKey(key)
     }
 
-    override fun containsKey(keyName: String): Boolean {
-        return keyRepository.hasKeyName(keyName)
+    override fun containsKey(keyValue: String): Boolean {
+        return keyRepository.hasKeyName(keyValue)
     }
 
-    override fun containsValue(keyName: String, value: TypeValue<*, N>): Boolean {
-        return getKey(keyName)?.let {
+    override fun containsValue(keyValue: String, value: TypeValue<*, N>): Boolean {
+        return getKey(keyValue)?.let {
             containsValue(it, value)
         } ?: false
     }
@@ -60,8 +60,8 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         }
     }
 
-    override fun clearKeyValues(keyName: String): Int {
-        return getKey(keyName)?.let { clearKeyValues(it) } ?: 0
+    override fun clearKeyValues(keyValue: String): Int {
+        return getKey(keyValue)?.let { clearKeyValues(it) } ?: 0
     }
 
     override fun clearKeyValues(key: K): Int {
@@ -71,8 +71,8 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         return valueRepositoryProvider.provide(key).deleteByKey(key)
     }
 
-    override fun clearKey(keyName: String, clearValues: Boolean) {
-        getKey(keyName)?.let {// 取得键
+    override fun clearKey(keyValue: String, clearValues: Boolean) {
+        getKey(keyValue)?.let {// 取得键
             clearKey(it, clearValues)
         }
     }
@@ -105,16 +105,16 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         return keyRepository.addAllKeys(this.keys)
     }
 
-    override fun getKey(keyName: String): K? {
-        return keyRepository.getKeyByName(keyName)
+    override fun getKey(keyValue: String): K? {
+        return keyRepository.getKeyByName(keyValue)
     }
 
     override fun getKey(node: N): K? {
         return indexRepository.getKeyByNode(node)
     }
 
-    override fun getMutliKeys(keyNames: Collection<String>): List<K> {
-        return keyRepository.getKeysByNames(keyNames)
+    override fun getMutliKeys(keyValues: Collection<String>): List<K> {
+        return keyRepository.getKeysByNames(keyValues)
     }
 
     override fun getValue(index: N): TypeValue<*, N>? {
@@ -149,12 +149,12 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         return indexRepository.getDefaultNode(key)
     }
 
-    override fun getDefaultNode(keyName: String): N? {
-        return getKey(keyName)?.let { getDefaultNode(it) }
+    override fun getDefaultNode(keyValue: String): N? {
+        return getKey(keyValue)?.let { getDefaultNode(it) }
     }
 
-    override fun getDefaultValue(keyName: String): TypeValue<*, N>? {
-        return getKey(keyName)?.let { getDefaultValue(it) }
+    override fun getDefaultValue(keyValue: String): TypeValue<*, N>? {
+        return getKey(keyValue)?.let { getDefaultValue(it) }
     }
 
     override fun getDefaultValue(key: K): TypeValue<*, N>? {
@@ -163,11 +163,11 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         }
     }
 
-    override fun setDefaultValue(keyName: String, value: TypeValue<*, N>): Boolean {
+    override fun setDefaultValue(keyValue: String, value: TypeValue<*, N>): Boolean {
         // 取出值对象
-        return getKey(keyName)?.let { key ->
+        return getKey(keyValue)?.let { key ->
             setDefaultValue(key, value)
-        } ?: throw MissingKeyException("[${keyName}]")
+        } ?: throw MissingKeyException("[${keyValue}]")
     }
 
     override fun setDefaultValue(key: K, value: TypeValue<*, N>): Boolean {

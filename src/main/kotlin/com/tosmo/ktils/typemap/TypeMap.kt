@@ -53,14 +53,14 @@ interface TypeMap<K : TypeKey, I : Index> {
     fun containsKey(key: K): Boolean
 
     /**
-     * 是否含名为[keyName]的键
+     * 是否含键值为[keyValue]的键
      */
-    fun containsKey(keyName: String): Boolean
+    fun containsKey(keyValue: String): Boolean
 
     /**
      * 是否有值[value]
      */
-    fun containsValue(keyName: String, value: TypeValue<*, I>): Boolean
+    fun containsValue(keyValue: String, value: TypeValue<*, I>): Boolean
 
     /**
      * 是否有值[value]
@@ -73,9 +73,9 @@ interface TypeMap<K : TypeKey, I : Index> {
     fun clearValues(): Int
 
     /**
-     * 删除键名为[keyName]键的所有值和节点，返回删除的值数
+     * 删除键为[keyValue]键的所有值和节点，返回删除的值数
      */
-    fun clearKeyValues(keyName: String): Int
+    fun clearKeyValues(keyValue: String): Int
 
     /**
      * 删除键[key]的所有值和节点，返回删除的值数
@@ -83,11 +83,11 @@ interface TypeMap<K : TypeKey, I : Index> {
     fun clearKeyValues(key: K): Int
 
     /**
-     * 删除键名为[keyName]的键
+     * 删除键名为[keyValue]的键
      *
      * @param clearValues true：同时删除对应的值
      */
-    fun clearKey(keyName: String, clearValues: Boolean = true)
+    fun clearKey(keyValue: String, clearValues: Boolean = true)
 
     /**
      * 删除键[key]的键
@@ -117,9 +117,9 @@ interface TypeMap<K : TypeKey, I : Index> {
     fun putMultiKeys(keys: Collection<K>): Int
 
     /**
-     * 根据键名取得键
+     * 根据键值取得键对象
      */
-    fun getKey(keyName: String): K?
+    fun getKey(keyValue: String): K?
 
     /**
      * 根据节点取得键
@@ -129,7 +129,7 @@ interface TypeMap<K : TypeKey, I : Index> {
     /**
      * 根据键名批量取得键
      */
-    fun getMutliKeys(keyNames: Collection<String>): List<K>
+    fun getMutliKeys(keyValues: Collection<String>): List<K>
 
     /**
      * 取得[index]下的[TypeValue]
@@ -169,12 +169,12 @@ interface TypeMap<K : TypeKey, I : Index> {
     /**
      * 取得默认[Index]
      */
-    fun getDefaultNode(keyName: String): I?
+    fun getDefaultNode(keyValue: String): I?
 
     /**
-     * 取得[keyName]的默认值，找不到返回空
+     * 取得[keyValue]的默认值，找不到返回空
      */
-    fun getDefaultValue(keyName: String): TypeValue<*, I>?
+    fun getDefaultValue(keyValue: String): TypeValue<*, I>?
 
     /**
      * 取得[key]的默认值，找不到返回空
@@ -182,13 +182,13 @@ interface TypeMap<K : TypeKey, I : Index> {
     fun getDefaultValue(key: K): TypeValue<*, I>?
 
     /**
-     * 更新或新增[keyName]默认值为[value]
+     * 更新或新增[keyValue]默认值为[value]
      *
      * @exception ValueTypeException
      * @exception MissingKeyException
      * @exception MissingIndexException
      */
-    fun setDefaultValue(keyName: String, value: TypeValue<*, I>): Boolean
+    fun setDefaultValue(keyValue: String, value: TypeValue<*, I>): Boolean
 
     /**
      * 更新或新增[key]默认值为[value]

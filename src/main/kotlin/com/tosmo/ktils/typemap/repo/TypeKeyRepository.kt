@@ -29,14 +29,14 @@ interface TypeKeyRepository<K : TypeKey> {
     fun deleteAllKeys(): Int
 
     /**
-     * 取得键名为[keyName]的[TypeKey]
+     * 取得键名为[keyValue]的[TypeKey]
      */
-    fun getKeyByName(keyName: String): K?
+    fun getKeyByName(keyValue: String): K?
 
     /**
-     * 根据[keyNames]集合，取得对应的所有[TypeKey]
+     * 根据[keyValues]集合，取得对应的所有[TypeKey]
      */
-    fun getKeysByNames(keyNames: Collection<String>): List<K>
+    fun getKeysByNames(keyValues: Collection<String>): List<K>
 
     /**
      * 取得保存的所有[TypeKey]
@@ -54,9 +54,9 @@ interface TypeKeyRepository<K : TypeKey> {
     fun isNoKey(): Boolean
 
     /**
-     * 查询是否存在名为[keyName]的[TypeKey]
+     * 查询是否存在名为[keyValue]的[TypeKey]
      */
-    fun hasKeyName(keyName: String): Boolean
+    fun hasKeyName(keyValue: String): Boolean
 
     /**
      * 查询是否存在[key]

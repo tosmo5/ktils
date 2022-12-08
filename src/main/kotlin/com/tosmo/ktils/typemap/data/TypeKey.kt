@@ -9,9 +9,9 @@ import kotlin.reflect.KClass
  */
 interface TypeKey {
     /**
-     * 键名，此值唯一
+     * 唯一的键
      */
-    val keyName: String
+    val keyValue: String
 
     /**
      * 此键保存的值的类型类
