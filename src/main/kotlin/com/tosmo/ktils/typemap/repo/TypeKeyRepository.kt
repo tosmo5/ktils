@@ -36,7 +36,7 @@ interface TypeKeyRepository<K : TypeKey> {
     /**
      * 根据[keyValues]集合，取得对应的所有[TypeKey]
      */
-    fun getKeysByNames(keyValues: Collection<String>): List<K>
+    fun getKeysByKeyValues(keyValues: Collection<String>): List<K>
 
     /**
      * 取得保存的所有[TypeKey]
@@ -46,7 +46,7 @@ interface TypeKeyRepository<K : TypeKey> {
     /**
      * 取得保存的所有[TypeKey]的名称
      */
-    fun getAllKeyNames(): List<String>
+    fun getAllKeyValues(): List<String>
 
     /**
      * 查询是否没有[TypeKey]
@@ -56,7 +56,7 @@ interface TypeKeyRepository<K : TypeKey> {
     /**
      * 查询是否存在名为[keyValue]的[TypeKey]
      */
-    fun hasKeyName(keyValue: String): Boolean
+    fun hasKeyValue(keyValue: String): Boolean
 
     /**
      * 查询是否存在[key]

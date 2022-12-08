@@ -33,14 +33,14 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
         get() = keyRepository.getAllKeys()
 
     override val keyNames: List<String>
-        get() = keyRepository.getAllKeyNames()
+        get() = keyRepository.getAllKeyValues()
 
     override fun containsKey(key: K): Boolean {
         return keyRepository.hasKey(key)
     }
 
     override fun containsKey(keyValue: String): Boolean {
-        return keyRepository.hasKeyName(keyValue)
+        return keyRepository.hasKeyValue(keyValue)
     }
 
     override fun containsValue(keyValue: String, value: TypeValue<*, N>): Boolean {
@@ -114,7 +114,7 @@ internal class TypeMapImpl<K : TypeKey, N : Index>(
     }
 
     override fun getMutliKeys(keyValues: Collection<String>): List<K> {
-        return keyRepository.getKeysByNames(keyValues)
+        return keyRepository.getKeysByKeyValues(keyValues)
     }
 
     override fun getValue(index: N): TypeValue<*, N>? {
