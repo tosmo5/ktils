@@ -266,4 +266,13 @@ object Reflecter {
     fun <T : Any> transfer(obj: Any, target: KClass<T>): T {
         return createBean(target, mapProps(obj))
     }
+
+    /**
+     * 根据[propertyName]取得[obj]中对应名称的属性的值
+     */
+    fun <T : Any> getPropertyValue(obj: Any, propertyName: String): Any? {
+        return obj::class.declaredMemberProperties.find {
+            it.visibility == KVisibility.PUBLIC && it.name == propertyName
+        }?.getter!!.call(obj)
+    }
 }
