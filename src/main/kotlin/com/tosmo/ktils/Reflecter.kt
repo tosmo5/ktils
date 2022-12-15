@@ -262,9 +262,13 @@ object Reflecter {
 
     /**
      * 将[obj]中的属性复制到新的[target]对象中
+     *
+     * @param diff 提供有差异的属性
      */
-    fun <T : Any> transfer(obj: Any, target: KClass<T>): T {
-        return createBean(target, mapProps(obj))
+    fun <T : Any> transfer(obj: Any, target: KClass<T>, diff: Map<String, *>? = null): T {
+        return createBean(target, mapProps(obj).apply {
+            diff?.forEach { (key, value) -> this[key] = value }
+        })
     }
 
     /**
