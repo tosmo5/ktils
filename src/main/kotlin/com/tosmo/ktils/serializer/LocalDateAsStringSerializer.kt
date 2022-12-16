@@ -13,7 +13,7 @@ import java.time.LocalDate
  *
  * @author Thomas Miao
  */
-class LocalDateAsStringSerializer : KSerializer<LocalDate> {
+object LocalDateAsStringSerializer : KSerializer<LocalDate> {
 
     val pattern
         get() = SerializerConfig.GLOBAL_CONFIG.datePattern

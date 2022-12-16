@@ -28,7 +28,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.tosmo5:ktils:0.3.12'
+    implementation 'com.github.tosmo5:ktils:0.3.13'
 }
 ```
 
