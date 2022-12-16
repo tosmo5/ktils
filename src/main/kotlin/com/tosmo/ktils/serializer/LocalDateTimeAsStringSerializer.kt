@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 object LocalDateTimeAsStringSerializer : KSerializer<LocalDateTime> {
 
     val pattern
-        get()= SerializerConfig.GLOBAL_CONFIG.datePattern
+        get()= SerializerConfig.GLOBAL_CONFIG.dateTimePattern
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
 

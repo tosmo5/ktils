@@ -3,6 +3,7 @@ package com.tosmo.ktils
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -120,16 +121,20 @@ object TimeUtils {
      */
     fun parseLocalDateTime(dateStr: String, pattern: String = "", local: Locale? = null): LocalDateTime {
         val dp = pattern.ifEmpty { switchDateFormat(dateStr) }
-        return local?.let {
-            LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(dp, it))
-        } ?: LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(dp))
+        return runCatching {
+            local?.let {
+                LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(dp, it))
+            } ?: LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern(dp))
+        }.getOrDefault(LocalDateTime.parse(dateStr))
+    }
+
+    fun parseLocalDate(dateStr: String, pattern: String = "", local: Locale? = null): LocalDate {
+        return parseLocalDateTime(dateStr, pattern, local).toLocalDate()
     }
 
     fun parseLocalTime(timeStr: String, pattern: String = "", local: Locale? = null): LocalTime {
         val tp = pattern.ifEmpty { switchTimeFormat(timeStr) }
-        return local?.let {
-            LocalTime.parse(timeStr, DateTimeFormatter.ofPattern(tp, it))
-        } ?: LocalTime.parse(timeStr, DateTimeFormatter.ofPattern(tp))
+        return parseLocalDateTime(timeStr, tp, local).toLocalTime()
     }
 
     /**
@@ -190,6 +195,13 @@ object TimeUtils {
      * @param dateFormat 默认[defaultDateFormat]
      */
     fun format(date: LocalDateTime, dateFormat: String = defaultDateFormat, local: Locale? = null): String {
+        val dp = dateFormat.ifEmpty { defaultDateFormat }
+        return local?.let {
+            date.format(DateTimeFormatter.ofPattern(dp, it))
+        } ?: date.format(DateTimeFormatter.ofPattern(dp))
+    }
+
+    fun format(date: LocalDate, dateFormat: String = defaultDateFormat, local: Locale? = null): String {
         val dp = dateFormat.ifEmpty { defaultDateFormat }
         return local?.let {
             date.format(DateTimeFormatter.ofPattern(dp, it))
